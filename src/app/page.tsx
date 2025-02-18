@@ -1,12 +1,9 @@
-import { Button } from "@mui/joy";
-import Link from "next/link";
+"use client";
 
 export default function Home() {
-  return (
-    <div className="flex">
-      <Link href="/upload" passHref>
-        <Button component="a">Button Link</Button>
-      </Link>
-    </div>
-  );
+	return (
+		<div className="flex">
+			Home
+		</div>
+	);
 }
