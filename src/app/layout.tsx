@@ -13,12 +13,12 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
+		<html lang="en" data-theme="night">
 			<body
 				className="w-screen h-screen"
 			>
 				<div className="flex flex-row h-full">
-					<div className="basis-1/3 h-full max-w-[300px] p-4">
+					<div className="basis-1/3 h-full max-w-[300px] p-4 bg-base-300">
 						<Sidebar />
 					</div>
 					<div className="flex-grow">
