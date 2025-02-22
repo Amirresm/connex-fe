@@ -1,26 +1,23 @@
 "use client";
 
-function DocumentEntry() {
-	return (
-		<div className="flex flex-col gap-4">
-			<div>
-				<textarea
-					className="textarea resize-none w-full bg-base-200"
-					placeholder="Type Here"
-				></textarea>
-				<div className="flex justify-end gap-2">
-					<button className="btn btn-ghost">Reset</button>
-					<button className="btn btn-primary">Submit</button>
-				</div>
-			</div>
-		</div>
-	);
-}
+import DocumentEntry from "@/components/document-entry/document-entry";
+import { useRouter } from "next/navigation";
+import React from "react";
+
 
 export default function Home() {
+	const router = useRouter();
+
+	const handleSubmit = React.useCallback((query: string) => {
+		console.log(query);
+		const id = 1;
+		const target = `/docs/${id}`;
+		router.push(target);
+	}, [router]);
+
 	return (
-		<div className="p-10">
-			<DocumentEntry />
+		<div className="w-full h-full flex justify-center items-center px-10">
+			<DocumentEntry onSubmit={handleSubmit} />
 		</div>
 	);
 }

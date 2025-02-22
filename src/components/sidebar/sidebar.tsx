@@ -40,7 +40,7 @@ function DocumentList({ documentList }: { documentList: any[] }) {
 			{documentList.map((document, index) => (
 				<React.Fragment key={document.id}>
 					<li className="w-full">
-						<Link href={`${document.id}`}>
+						<Link href={`/docs/${document.id}`}>
 							<span className="text-xs w-full overflow-hidden whitespace-nowrap text-ellipsis">{document.summary}</span>
 						</Link>
 					</li>

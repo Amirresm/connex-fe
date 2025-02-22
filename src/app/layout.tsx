@@ -21,7 +21,7 @@ export default function RootLayout({
 					<div className="basis-1/3 h-full max-w-[300px] p-4 bg-base-300">
 						<Sidebar />
 					</div>
-					<div className="flex-grow">
+					<div className="flex-grow p-10">
 						{children}
 					</div>
 				</div>
