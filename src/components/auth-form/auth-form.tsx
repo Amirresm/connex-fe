@@ -32,18 +32,18 @@ function Login() {
 			{/* 	Login */}
 			{/* </div> */}
 			<div className="w-full flex flex-col gap-2">
-				<label className="input input-bordered input-lg flex items-center gap-2">
+				<label className="input input-bordered 2xl:input-lg flex items-center gap-2">
 					<UserIcon className="w-5" />
 					<input name="username" type="text" className="grow" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
 				</label>
-				<label className="input input-bordered input-lg flex items-center gap-2">
+				<label className="input input-bordered 2xl:input-lg flex items-center gap-2">
 					<KeyIcon className="w-5" />
 					<input name="password" type="password" className="grow" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
 				</label>
 			</div>
 			<div className="w-full mt-2">
-				<div className="h-4 text-xs text-error mb-4">{error}</div>
-				<button className="btn w-full btn-lg" type="submit">
+				<div className="h-4 text-xs 2xl:text-sm text-error mb-4">{error}</div>
+				<button className="btn w-full 2xl:btn-lg" type="submit">
 					Login
 				</button>
 			</div>
@@ -79,18 +79,18 @@ function Signup() {
 			{/* 	Signup */}
 			{/* </div> */}
 			<div className="w-full flex flex-col gap-2">
-				<label className="input input-bordered input-lg flex items-center gap-2">
+				<label className="input input-bordered 2xl:input-lg flex items-center gap-2">
 					<UserIcon className="w-5" />
 					<input name="username" type="text" className="grow" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
 				</label>
-				<label className="input input-bordered input-lg flex items-center gap-2">
+				<label className="input input-bordered 2xl:input-lg flex items-center gap-2">
 					<KeyIcon className="w-5" />
 					<input name="password" type="password" className="grow" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
 				</label>
 			</div>
 			<div className="w-full mt-2">
-				<div className="h-4 text-xs text-error mb-4">{error}</div>
-				<button className="btn w-full btn-lg" type="submit">
+				<div className="h-4 text-xs 2xl:text-sm text-error mb-4">{error}</div>
+				<button className="btn w-full 2xl:btn-lg" type="submit">
 					Signup
 				</button>
 			</div>
@@ -100,15 +100,15 @@ function Signup() {
 export default function AuthForm() {
 	const [state, setState] = React.useState<"login" | "signup">("login");
 
-	return <div className="w-1/2 min-w-[500px] max-w-[700px] h-2/3 min-h-[500px] max-h-[700px] flex flex-col justify-between items-center gap-4 rounded-lg bg-base-100 border border-neutral-700">
+	return <div className="w-1/3 2xl:w-[70%] min-w-[500px] max-w-[700px] h-2/3 2xl:h-3/4 min-h-[500px] max-h-[700px] flex flex-col justify-between items-center gap-4 rounded-lg bg-base-100 border border-neutral-700">
 		<div className="mt-20">
 			<div className="flex flex-row gap-2 mt-4 mx-2 items-center justify-center text-secondary">
-				<CheckBadgeIcon className="w-16 brand-svg" />
-				<span className="text-5xl brand-text">Fact Checker</span>
+				<CheckBadgeIcon className="w-14 2xl:w-16 brand-svg" />
+				<span className="text-4xl 2xl:text-5xl brand-text">Fact Checker</span>
 			</div>
 		</div>
 		{state === "login" ? <Login /> : <Signup />}
-		<button className="btn btn-ghost mb-16" onClick={() => setState(state === "login" ? "signup" : "login")}>
+		<button className="btn btn-ghost 2xl:btn-lg mb-16" onClick={() => setState(state === "login" ? "signup" : "login")}>
 			{state === "login" ? "No account? Signup." : "Already signed up? Login."}
 		</button>
 	</div>;
