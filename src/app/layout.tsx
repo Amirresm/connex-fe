@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Sidebar from "@/components/sidebar/sidebar";
+import Providers from "./providers";
 
 export const metadata: Metadata = {
 	title: "Create Next App",
@@ -13,18 +14,16 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" data-theme="night">
-			<body
-				className="w-screen h-screen"
-			>
-				<div className="flex flex-row h-full">
-					<div className="basis-1/3 h-full max-w-[300px] p-4 bg-base-300">
-						<Sidebar />
+		<html lang="en">
+			<body className="w-screen h-screen">
+				<Providers>
+					<div className="flex flex-row h-full">
+						<div className="">
+							<Sidebar />
+						</div>
+						<div className="flex-grow p-10">{children}</div>
 					</div>
-					<div className="flex-grow p-10">
-						{children}
-					</div>
-				</div>
+				</Providers>
 			</body>
 		</html>
 	);

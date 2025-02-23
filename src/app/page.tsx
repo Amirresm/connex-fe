@@ -10,7 +10,7 @@ export default function Home() {
 
 	const handleSubmit = React.useCallback((query: string) => {
 		console.log(query);
-		const id = 1;
+		const id = Math.round(Math.random() * 200);
 		const target = `/docs/${id}`;
 		router.push(target);
 	}, [router]);

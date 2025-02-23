@@ -1,3 +1,17 @@
-.routes-container {
-	@apply flex flex-col gap-4;
+.document-list-item {
+	opacity: 0;
+	transform: translateX(-20%);
+	animation: fadeIn 50ms ease-out forwards;
+	animation-delay: calc(var(--index) * 10ms);
+}
+
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+		transform: translateX(-20%);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0);
+	}
 }
