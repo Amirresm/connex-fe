@@ -90,7 +90,7 @@ export default function DocumentEntry(props: DocumentEntryProps) {
 	}, [handleChange]);
 
 	return (
-		<div className="w-full">
+		<div className="w-full max-w-[1000px]">
 			<div className="relative rounded-3xl border border-neutral-800 bg-base-300 px-5 pt-4 pb-16">
 				<textarea
 					ref={textareaRef}
