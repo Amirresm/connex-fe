@@ -35,8 +35,8 @@ body {
 	--color2: #0fffc1;
 	--glow-intensity: 0.8;
 
-	--bg-color1: rgba(0, 0, 0, 0.08);
-	--bg-color2: #0a1010;
+	--bg-color1: rgba(0, 0, 0, 0.1);
+	--bg-color2: rgba(10, 16, 16, 0.9);
 }
 
 .main-bg-gradient {
@@ -89,7 +89,7 @@ body {
 		0 0 20px var(--glow2),
 		0 0 30px var(--glow1);
 
-	/* animation: brand-shine 5s linear infinite; */
+	animation: brand-shine 5s linear infinite;
 }
 
 @keyframes brand-shine {

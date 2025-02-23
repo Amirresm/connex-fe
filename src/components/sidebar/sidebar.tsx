@@ -93,9 +93,9 @@ export default function Sidebar(props: {}) {
 	});
 
 	return authInfo.isAuthenticatedOptimistic && (
-		<div className={`h-full flex flex-col gap-2 p-4 bg-base-200 w-72 border-r border-neutral-700`}>
+		<div className={`h-full flex flex-col gap-4 p-4 bg-base-200 w-72 border-r border-neutral-700`}>
 			<Header />
-			<div className="h-10" />
+			<div className="h-8" />
 			<Actions />
 			<DocumentList
 				activeId={id}
