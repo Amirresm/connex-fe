@@ -101,7 +101,7 @@ export default function DocumentEntry(props: DocumentEntryProps) {
 			<div className="relative rounded-3xl border border-neutral-800 bg-base-200 px-5 pt-4 pb-16">
 				<textarea
 					ref={textareaRef}
-					className="resize-none outline-none w-full bg-base-200 text-lg"
+					className="resize-none outline-none w-full bg-base-200 text-lg mx-1"
 					placeholder={
 						step === 1 ? "Enter document content" : "Enter ground truth content"
 					}

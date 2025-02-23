@@ -17,11 +17,11 @@ export default function Home() {
 
 	const createDocumentMutation = useMutation({
 		mutationFn: async (data: NewDocumentType) => {
-			return await api.initDocument(data);
+			// return await api.initDocument(data);
 		},
 		onSuccess: (data) => {
-			console.log("Document created", data);
-			const target = `/docs/${data.id}`;
+			const id = "none";
+			const target = `/docs/${id}`;
 			router.push(target);
 		},
 	});

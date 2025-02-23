@@ -43,6 +43,9 @@
 }
 
 .glow {
+	width: 22rem;
+	padding: 1rem;
+	text-align: center;
 	box-shadow: inset 2px 2px 10px rgba(0, 0, 0, 0.3);
 }
 

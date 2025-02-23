@@ -31,7 +31,7 @@ export default function NewDocumentProcessing(
 				</div>
 			</div>
 			<div className="relative">
-				<div className="border border-neutral-700 rounded-lg bg-base-300 py-2 px-4 glow">
+				<div className="border border-neutral-700 rounded-lg bg-base-300 glow">
 					<span className="text-lg font-bold">{message[0]}</span>
 					<span className="text-lg font-bold text-glow">{message[1]}</span>
 					<span className="text-lg font-bold">{message[2]}</span>
