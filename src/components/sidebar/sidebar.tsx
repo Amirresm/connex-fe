@@ -3,23 +3,24 @@
 import Link from "next/link";
 import "./sidebar.css";
 import {
-	ArrowUpTrayIcon,
-	HomeIcon,
+	ArrowRightEndOnRectangleIcon,
 	CheckBadgeIcon,
 	PlusCircleIcon,
+	UserIcon,
 } from "@heroicons/react/24/solid";
 import { docListMock } from "@/mocks/all_mocks";
 import React from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { asyncSleep } from "@/utils/async_utils";
+import { useAuthentication } from "@/hooks/authentication";
 
 function Header() {
 	return (
 		<div className="">
-			<div className="flex flex-row gap-2 mx-2 items-center justify-center text-secondary">
-				<CheckBadgeIcon className="w-6" />
-				<span className="text-md">Fact Checker</span>
+			<div className="flex flex-row gap-2 mt-4 mx-2 items-center justify-center text-secondary">
+				<CheckBadgeIcon className="w-10 brand-svg" />
+				<span className="text-2xl brand-text">Fact Checker</span>
 			</div>
 		</div>
 	);
@@ -64,7 +65,7 @@ function DocumentList(props: DocumentListProps) {
 							className={document.id === activeId ? "active" : ""}
 							href={`/docs/${document.id}`}
 						>
-							<span className="text-xs w-full overflow-hidden whitespace-nowrap text-ellipsis">
+							<span className="text-md w-full overflow-hidden whitespace-nowrap text-ellipsis">
 								{document.summary}
 							</span>
 						</Link>
@@ -77,6 +78,7 @@ function DocumentList(props: DocumentListProps) {
 }
 
 export default function Sidebar(props: {}) {
+	const authInfo = useAuthentication();
 	const { id } = useParams<{ id: string }>();
 	const documentListQuery = useQuery({
 		queryKey: ["documentList"],
@@ -84,10 +86,11 @@ export default function Sidebar(props: {}) {
 			await asyncSleep(1000);
 			return docListMock;
 		},
+		enabled: authInfo.isAuthenticatedOptimistic
 	});
 
-	return (
-		<div className="h-full flex flex-col gap-4 p-4 bg-base-300 w-[260px] border-r border-neutral-700">
+	return authInfo.isAuthenticatedOptimistic && (
+		<div className={`h-full flex flex-col gap-4 p-4 bg-base-200 w-72 border-r border-neutral-700`}>
 			<Header />
 			<Actions />
 			<DocumentList
@@ -95,6 +98,23 @@ export default function Sidebar(props: {}) {
 				documentList={documentListQuery.data}
 				isLoading={documentListQuery.isLoading}
 			/>
+			<div className="flex-grow" />
+			<div className="flex items-center gap-4 p-4 rounded-lg border border-neutral-800">
+				<div className="avatar">
+					<div className="ring-secondary ring-offset-base-100 w-8 rounded-full ring ring-offset-2">
+						<div className="flex items-center justify-center w-8 h-8">
+							<UserIcon className="w-5" />
+						</div>
+					</div>
+				</div>
+				<div className="text-md text-ellipsis overflow-hidden whitespace-nowrap">
+					{authInfo.username}
+				</div>
+				<div className="flex-grow" />
+				<button className="btn btn-ghost btn-sm btn-square" onClick={authInfo.logout}>
+					<ArrowRightEndOnRectangleIcon className="w-6" />
+				</button>
+			</div>
 		</div>
 	);
 }

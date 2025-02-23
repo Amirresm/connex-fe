@@ -24,8 +24,8 @@ function DocumentDisplay(props: DocumentDisplayProps) {
 			<div className="skeleton w-full h-6" />
 		</div>
 	) : (
-		<div className="rounded-3xl bg-base-300 w-full h-full py-2 px-4 overflow-y-scroll border border-neutral-800">
-			<span className="text-sm whitespace-pre-wrap">{documentSource}</span>
+		<div className="rounded-3xl bg-base-200 w-full h-full py-2 px-4 overflow-y-scroll border border-neutral-800">
+			<span className="text-md whitespace-pre-wrap">{documentSource}</span>
 		</div>
 	);
 }

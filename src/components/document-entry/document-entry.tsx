@@ -1,9 +1,10 @@
-import { PaperAirplaneIcon, TrashIcon } from "@heroicons/react/16/solid";
+import { NewDocumentType } from "@/models/document";
+import { TrashIcon } from "@heroicons/react/16/solid";
 import { ArrowLeftIcon, ArrowRightIcon, CloudArrowUpIcon } from "@heroicons/react/24/solid";
 import React from "react";
 
 type DocumentEntryProps = {
-	onSubmit?: (query: string) => void;
+	onSubmit?: (data: NewDocumentType) => void;
 };
 
 export default function DocumentEntry(props: DocumentEntryProps) {
@@ -23,7 +24,7 @@ export default function DocumentEntry(props: DocumentEntryProps) {
 			textareaRef.current.style.height = "inherit";
 			const maxHeight = Math.max(
 				0,
-				Math.min(200, textareaRef.current.scrollHeight),
+				Math.min(500, textareaRef.current.scrollHeight),
 			);
 			textareaRef.current.style.height = `${maxHeight}px`;
 		}
@@ -37,12 +38,16 @@ export default function DocumentEntry(props: DocumentEntryProps) {
 				dataRef.current.doc = query;
 				if (textareaRef.current) textareaRef.current.value = "";
 				setStep(2);
+				handleChange(null as any);
 				return;
 			}
 			dataRef.current.ground = query;
-			onSubmit?.(dataRef.current.doc + "\n" + dataRef.current.ground);
+			onSubmit?.({
+				document: dataRef.current.doc,
+				groundTruth: dataRef.current.ground
+			});
 		},
-		[onSubmit, step],
+		[onSubmit, step, handleChange],
 	);
 
 	const handleReset = React.useCallback(
@@ -52,8 +57,9 @@ export default function DocumentEntry(props: DocumentEntryProps) {
 			dataRef.current.doc = "";
 			dataRef.current.ground = "";
 			setStep(1);
+			handleChange(null as any);
 		},
-		[],
+		[handleChange],
 	);
 
 	const handleBack = React.useCallback(
@@ -62,6 +68,7 @@ export default function DocumentEntry(props: DocumentEntryProps) {
 			setStep(1);
 			if (textareaRef.current) textareaRef.current.value = dataRef.current.doc;
 			dataRef.current.ground = "";
+			handleChange(null as any);
 		},
 		[],
 	);
@@ -91,10 +98,10 @@ export default function DocumentEntry(props: DocumentEntryProps) {
 
 	return (
 		<div className="w-full max-w-[1000px]">
-			<div className="relative rounded-3xl border border-neutral-800 bg-base-300 px-5 pt-4 pb-16">
+			<div className="relative rounded-3xl border border-neutral-800 bg-base-200 px-5 pt-4 pb-16">
 				<textarea
 					ref={textareaRef}
-					className="resize-none outline-none w-full bg-base-300 text-lg"
+					className="resize-none outline-none w-full bg-base-200 text-lg"
 					placeholder={
 						step === 1 ? "Enter document content" : "Enter ground truth content"
 					}

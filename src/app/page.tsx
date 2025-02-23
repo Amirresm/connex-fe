@@ -1,6 +1,11 @@
 "use client";
 
+import api from "@/api/api";
+import AuthForm from "@/components/auth-form/auth-form";
 import DocumentEntry from "@/components/document-entry/document-entry";
+import { useAuthentication } from "@/hooks/authentication";
+import { NewDocumentType } from "@/models/document";
+import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -8,16 +13,34 @@ import React from "react";
 export default function Home() {
 	const router = useRouter();
 
-	const handleSubmit = React.useCallback((query: string) => {
-		console.log(query);
-		const id = Math.round(Math.random() * 200);
-		const target = `/docs/${id}`;
-		router.push(target);
-	}, [router]);
+	const authInfo = useAuthentication();
+
+	const createDocumentMutation = useMutation({
+		mutationFn: async (data: NewDocumentType) => {
+			return await api.initDocument(data);
+		},
+		onSuccess: (data) => {
+			console.log("Document created", data);
+			const target = `/docs/${data.id}`;
+			router.push(target);
+		},
+	});
+
+	const handleSubmit = React.useCallback((query: NewDocumentType) => {
+		createDocumentMutation.mutate(query);
+	}, [createDocumentMutation]);
+
+	if (authInfo.isAuthenticatedOptimistic) {
+		return (
+			<div className="w-full h-full flex justify-center items-center px-10">
+				<DocumentEntry onSubmit={handleSubmit} />
+			</div>
+		);
+	}
 
 	return (
 		<div className="w-full h-full flex justify-center items-center px-10">
-			<DocumentEntry onSubmit={handleSubmit} />
+			<AuthForm />
 		</div>
 	);
 }

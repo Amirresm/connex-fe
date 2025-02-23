@@ -11,6 +11,7 @@ export default function DocumentPage({
 }: {
 	params: Promise<{ id: string }>;
 }) {
+	const socketRef = React.useRef<WebSocket | null>(null);
 	const { id } = React.use(params);
 
 	const documentStatusQuery = useQuery({
@@ -24,7 +25,19 @@ export default function DocumentPage({
 		},
 	});
 
-	console.log(documentStatusQuery.data, documentStatusQuery.isLoading);
+	React.useEffect(() => {
+		// connect to socket
+		const socket = new WebSocket(`ws://localhost:7000/ws/${id}`);
+		socketRef.current = socket;
+		socket.onopen = (e) => {
+			console.log("Socket connected", e);
+		};
+		socket.onmessage = (e) => {
+			console.log("Socket message", e);
+		};
+
+	}, [id]);
+
 
 	if (documentStatusQuery.isLoading || !documentStatusQuery.data) {
 		return (

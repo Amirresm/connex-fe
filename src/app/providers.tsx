@@ -1,14 +1,16 @@
 "use client";
-import type * as React from "react";
-import { QueryClientProvider } from "@tanstack/react-query";
+import * as React from "react";
+import { QueryClientProvider, useQuery } from "@tanstack/react-query";
 import {
 	QueryClient,
 	defaultShouldDehydrateQuery,
 	isServer,
 } from "@tanstack/react-query";
+import { usePathname, useRouter } from "next/navigation";
+import api, { FetchError } from "@/api/api";
 
 function makeQueryClient() {
-	return new QueryClient({
+	const qc = new QueryClient({
 		defaultOptions: {
 			queries: {
 				staleTime: 60 * 1000,
@@ -21,6 +23,7 @@ function makeQueryClient() {
 			},
 		},
 	});
+	return qc;
 }
 
 let browserQueryClient: QueryClient | undefined = undefined;
@@ -41,6 +44,41 @@ export function getQueryClient() {
 
 export default function Providers({ children }: { children: React.ReactNode }) {
 	const queryClient = getQueryClient();
+	const router = useRouter();
+	const pathname = usePathname();
+
+	React.useEffect(() => {
+		queryClient.setDefaultOptions({
+			mutations: {
+				onError: (err) => {
+					console.log("From mutation error", err);
+					if (err instanceof FetchError && err.status === 401) {
+						router.replace("/");
+					}
+				}
+			}
+		});
+
+		// (async () => {
+		// 	console.log("Prefetching auth info");
+		// 	console.log("Query client", queryClient.getQueryData(["auth_info"]));
+		// 	await queryClient.prefetchQuery({
+		// 		queryKey: ["auth_info"],
+		// 		queryFn: async () => {
+		// 			const response = await api.fetchAuth();
+		// 			return response;
+		// 		}
+		// 	});
+		// })();
+	}, [queryClient, router]);
+
+	const authInfo = queryClient.getQueryData(["auth_info"]);
+
+	React.useEffect(() => {
+		if (!authInfo && pathname !== "/") {
+			router.replace("/");
+		}
+	}, [authInfo, pathname, router]);
 
 	return (
 		<QueryClientProvider client={queryClient}>

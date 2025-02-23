@@ -17,7 +17,7 @@ export default function RootLayout({
 		<html lang="en">
 			<body className="w-screen h-screen">
 				<Providers>
-					<div className="flex flex-row h-full">
+					<div className="flex flex-row h-full main-bg-gradient">
 						<div className="">
 							<Sidebar />
 						</div>

@@ -15,8 +15,112 @@
 /*   } */
 /* } */
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: #ffffff;
+    transition-delay: background-color 5000s ease-in-out 0s;
+}
+
 body {
-  /* color: var(--foreground); */
-  /* background: var(--background); */
-  font-family: roboto, Arial, Helvetica, sans-serif;
+	/* color: var(--foreground); */
+	/* background: var(--background); */
+	font-family: roboto, Arial, Helvetica, sans-serif;
+}
+
+
+:root {
+	--color1: #aa4cad;
+	--color2: #0fffc1;
+	--glow-intensity: 0.8;
+
+	--bg-color1: #000;
+	--bg-color2: #0A1010;
+}
+
+.main-bg-gradient {
+	background: linear-gradient(-45deg, var(--bg-color1), var(--bg-color2), var(--bg-color1));
+	background-size: 400% 400%;
+	animation: bg-gradient 60s ease infinite;
+}
+
+@keyframes bg-gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+
+	50% {
+		background-position: 100% 50%;
+	}
+
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+.brand-text {
+	--glow1: rgba(170, 76, 173, var(--glow-intensity));
+	--glow2: rgba(15, 255, 193, var(--glow-intensity));
+
+	background: linear-gradient(90deg, var(--color1), var(--color2), var(--color1));
+	background-size: 200% auto;
+	background-clip: text;
+	-webkit-background-clip: text;
+	color: transparent;
+	-webkit-text-fill-color: transparent;
+
+	text-shadow: 0 0 10px var(--glow1),
+		0 0 20px var(--glow2),
+		0 0 30px var(--glow1);
+
+	/* animation: brand-shine 5s linear infinite; */
+}
+
+@keyframes brand-shine {
+	0% {
+		background-position: 0% center;
+		text-shadow: 0 0 10px var(--glow1),
+			0 0 20px var(--glow2),
+			0 0 30px var(--glow1);
+	}
+
+	50% {
+		text-shadow: 0 0 15px var(--glow2),
+			0 0 25px var(--glow1),
+			0 0 35px var(--glow2);
+	}
+
+	100% {
+		background-position: 200% center;
+		text-shadow: 0 0 10px var(--glow1),
+			0 0 20px var(--glow2),
+			0 0 30px var(--glow1);
+	}
+}
+
+.brand-svg {
+	font-size: 3rem;
+	font-weight: bold;
+	color: linear-gradient(90deg, var(--color1), var(--color2), var(--color1));
+	/* fill: url(#text-gradient); */
+	filter: url(#text-glow);
+	animation: svg-glow 10s linear infinite;
+}
+
+@keyframes svg-glow {
+	0% {
+		background-position: 0% center;
+		filter: drop-shadow(0 0 10px var(--color1)) drop-shadow(0 0 20px var(--color2));
+	}
+
+	50% {
+		filter: drop-shadow(0 0 15px var(--color2)) drop-shadow(0 0 25px var(--color1));
+	}
+
+	100% {
+		background-position: 200% center;
+		filter: drop-shadow(0 0 10px var(--color1)) drop-shadow(0 0 20px var(--color2));
+	}
 }
