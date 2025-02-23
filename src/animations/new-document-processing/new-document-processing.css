@@ -1,0 +1,94 @@
+.container {
+	gap: 6rem;
+}
+
+.artwork {
+	width: 70%;
+}
+
+.conf-div {
+	animation-delay: 200ms !important;
+}
+
+.fade-in {
+	opacity: 0;
+	transform: scale(0.9);
+	animation: fadeIn 300ms ease-out forwards;
+}
+
+.fade-out {
+	opacity: 1;
+	transform: scale(1);
+	animation: fadeOut 300ms ease-out forwards;
+}
+
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes fadeOut {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		transform: scale(0.9);
+	}
+}
+
+.glow {
+	box-shadow: inset 2px 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.glow::after {
+	position: absolute;
+	content: "";
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: -1;
+	height: 100%;
+	width: 100%;
+	margin: 0 auto;
+	filter: blur(40px);
+	transform: scale(1.1);
+	background: linear-gradient(90deg, #0fffc1, #7e0fff);
+	background-size: 200% 200%;
+	animation: animateGlow 10s ease infinite;
+}
+@keyframes animateGlow {
+	0% {
+		background-position: 0% 50%;
+	}
+
+	50% {
+		background-position: 100% 50%;
+	}
+
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+.text-glow {
+	background: linear-gradient(90deg, #aa4cad, #0fffc1, #aa4cad);
+	background-size: 200% auto;
+	background-clip: text;
+	text-fill-color: transparent;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+
+	animation: shine 10s ease infinite;
+	animation-direction: reverse;
+}
+@keyframes shine {
+	to {
+		background-position: 200% center;
+	}
+}
