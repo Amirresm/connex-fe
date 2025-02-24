@@ -35,7 +35,7 @@ function Login() {
 			<div className="w-full flex flex-col gap-2">
 				<label className="input input-bordered 2xl:input-lg flex items-center gap-2">
 					<UserIcon className="w-5" />
-					<input name="username" type="text" className="grow" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
+					<input name="username" type="text" className="grow" placeholder="Email" value={username} onChange={(e) => setUsername(e.target.value)} />
 				</label>
 				<label className="input input-bordered 2xl:input-lg flex items-center gap-2">
 					<KeyIcon className="w-5" />
@@ -82,7 +82,7 @@ function Signup() {
 			<div className="w-full flex flex-col gap-2">
 				<label className="input input-bordered 2xl:input-lg flex items-center gap-2">
 					<UserIcon className="w-5" />
-					<input name="username" type="text" className="grow" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
+					<input name="username" type="text" className="grow" placeholder="Email" value={username} onChange={(e) => setUsername(e.target.value)} />
 				</label>
 				<label className="input input-bordered 2xl:input-lg flex items-center gap-2">
 					<KeyIcon className="w-5" />

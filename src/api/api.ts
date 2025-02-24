@@ -55,13 +55,13 @@ export async function login(username: string, password: string) {
 	return { access_token, token_type };
 }
 
-export async function signup(username: string, password: string, email?: string) {
+export async function signup(username: string, password: string) {
 	const response = await betterFetch(`${baseUrl}/signup/`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
 		},
-		body: JSON.stringify({ name: username, password, email: `${username}@example.com` })
+		body: JSON.stringify({ name: username, password, email: username })
 	});
 	const json = await response.json();
 	const { access_token, token_type } = json;
