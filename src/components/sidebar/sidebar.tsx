@@ -25,7 +25,7 @@ function Header() {
 	return (
 		<div className="">
 			<div className="flex flex-row gap-2 mt-4 items-center justify-center text-secondary">
-				<CheckBadgeIcon className="w-10 brand-svg" />
+				<CheckBadgeIcon className="w-10 brand-asvg" />
 				<span className="text-2xl brand-text">Fact Checker</span>
 			</div>
 		</div>
