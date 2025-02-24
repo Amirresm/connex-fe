@@ -1,7 +1,7 @@
 "use client";
 
 import Lottie from "lottie-react";
-import claimAnimation from "./claim-process.json";
+import claimAnimation from "../loading-string.json";
 
 export default function ClaimProcessing() {
 	return (

@@ -6,6 +6,7 @@ import React from "react";
 type ClaimListProps = {
 	claimList?: ClaimType[];
 	isLoading?: boolean;
+	emptyMessage: string;
 };
 
 const confidenceColors = {
@@ -44,10 +45,10 @@ function ClaimListSkeleton() {
 }
 
 export default function ClaimList(props: ClaimListProps) {
-	const { claimList, isLoading } = props;
+	const { claimList, isLoading, emptyMessage } = props;
 
 	return (
-		<div className="w-full h-full overflow-y-auto rounded-xl bg-base-100 px-2">
+		<div className="w-full h-full flex flex-col overflow-y-auto rounded-xl bg-base-100 px-2">
 			<table className="table table-pin-rows">
 				<thead>
 					<tr className="text-neutral-400">
@@ -94,6 +95,11 @@ export default function ClaimList(props: ClaimListProps) {
 					)}
 				</tbody>
 			</table>
+			{claimList?.length === 0 && (
+				<div className="w-full h-full flex items-center justify-center">
+					{emptyMessage}
+				</div>
+			)}
 		</div>
 	);
 }

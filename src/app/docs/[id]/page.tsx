@@ -1,6 +1,6 @@
 "use client";
 
-import DocumentClaimContainer from "@/components/document/document-claim-container/DocumentClaimContainer";
+import DocumentClaimContainer from "@/components/document/document-claim-container/document-claim-container";
 import NewDocumentProcessing from "@/animations/new-document-processing/new-document-processing";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
@@ -23,7 +23,6 @@ export default function DocumentPage({
 		// refetchInterval: (query) => {
 		// 	return query.state.data?.status !== "ready" ? 1000 : false;
 		// },
-		// throwOnError: true,
 		// enabled: false
 	});
 

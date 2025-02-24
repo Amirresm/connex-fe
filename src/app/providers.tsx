@@ -55,6 +55,8 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 					console.log("From mutation error", err);
 					if (err instanceof FetchError && err.status === 401) {
 						router.replace("/");
+					} else {
+						throw err;
 					}
 				}
 			}
