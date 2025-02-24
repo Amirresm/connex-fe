@@ -6,8 +6,7 @@ import {
 	ChevronDoubleUpIcon,
 } from "@heroicons/react/24/solid";
 import { useQuery } from "@tanstack/react-query";
-import { sampleClaimListMock, sampleDocMock } from "@/mocks/all_mocks";
-import { asyncSleep } from "@/utils/async_utils";
+import api from "@/api/api";
 
 type DocumentDisplayProps = {
 	documentSource?: string;
@@ -29,25 +28,21 @@ function DocumentDisplay(props: DocumentDisplayProps) {
 	);
 }
 
-type DocumentClaimContainerProps = { documentId: string };
+type DocumentClaimContainerProps = { id: string };
 
 export default function DocumentClaimContainer(
 	props: DocumentClaimContainerProps,
 ) {
-	const documentSourceQuery = useQuery({
-		queryKey: ["documentSource", props.documentId],
-		queryFn: async () => {
-			await asyncSleep(1000);
-			return sampleDocMock.ground_truth;
+	const { id } = props;
+
+	const documentQuery = useQuery({
+		queryKey: ["document", id],
+		queryFn: async ({ queryKey }) => {
+			const data = await api.fetchDocument(queryKey[1]);
+			return data;
 		},
 	});
-	const claimListQuery = useQuery({
-		queryKey: ["claimList", props.documentId],
-		queryFn: async () => {
-			await asyncSleep(1000);
-			return sampleClaimListMock;
-		},
-	});
+
 	const [collapsed, setCollapsed] = React.useState(true);
 
 	const handleCollapse = React.useCallback(() => {
@@ -58,8 +53,8 @@ export default function DocumentClaimContainer(
 		<div className="h-full flex flex-col gap-2">
 			<div className="flex-1 min-h-0">
 				<ClaimList
-					claimList={claimListQuery.data}
-					isLoading={claimListQuery.isLoading}
+					claimList={documentQuery.data?.claims}
+				isLoading={documentQuery.isLoading}
 				/>
 			</div>
 			<div
@@ -81,8 +76,8 @@ export default function DocumentClaimContainer(
 			>
 				<div className="mx-auto">Source Document</div>
 				<DocumentDisplay
-					documentSource={documentSourceQuery.data}
-					isLoading={documentSourceQuery.isLoading}
+					documentSource={documentQuery.data?.document_content}
+					isLoading={documentQuery.isLoading}
 				/>
 			</div>
 		</div>

@@ -62,7 +62,7 @@ export default function ClaimList(props: ClaimListProps) {
 						<ClaimListSkeleton />
 					) : (
 						claimList.map((claim, index) => (
-							<tr key={claim.id} className="hover">
+							<tr key={claim.claim} className="hover">
 								<th><span className="block w-6">{index + 1}</span></th>
 								<td>
 									<div

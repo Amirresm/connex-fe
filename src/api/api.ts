@@ -1,4 +1,5 @@
-import { DocumentListItemType, NewDocumentType } from "@/models/document";
+import { ClaimType } from "@/models/claim";
+import { DocumentFullType, DocumentListItemType, NewDocumentType } from "@/models/document";
 import { removeToken, retrieveToken } from "@/utils/tokenUtils";
 
 const baseUrl = "http://localhost:7000/api/v1";
@@ -88,7 +89,28 @@ export async function fetchDocuments() {
 export async function fetchDocument(documentId: string) {
 	const response = await betterFetch(`${baseUrl}/document/${documentId}`);
 	const json = await response.json();
-	return json;
+	const status = json.status === "claim_extraction" ? "claim" : json.status === "claim_verification" ? "confidence" : "ready";
+	let claims = "numerical_data" in json.claims ? json.claims.numerical_data : json.claims;
+	claims = claims.map((claim: any) => {
+		if (typeof claim === "string") {
+			return {
+				claim: claim,
+				confidence: null,
+			};
+		} else {
+			return {
+				claim: claim.claim,
+				confidence: Math.round(claim.scores * 100),
+			};
+		}
+	});
+	const data = {
+		...json,
+		status,
+		claims
+	} as DocumentFullType;
+
+	return data;
 }
 
 export async function fetchDocumentStatus(documentId: string) {
@@ -112,10 +134,46 @@ async function initDocument(data: NewDocumentType) {
 	});
 	const json = await response.json();
 	return json as {
-		uuid: number;
+		uuid: string;
 		document_content: string;
 		ground_truth: string;
 	};
+}
+
+async function generateDocTitle(documentId: string) {
+	const response = await betterFetch(`${baseUrl}/document/generate-title`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ uuid: documentId }),
+	});
+	const json = await response.json();
+	return json;
+}
+
+async function extractClaims(documentId: string) {
+	const response = await betterFetch(`${baseUrl}/document/extract-claims`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ uuid: documentId }),
+	});
+	const json = await response.json();
+	return json;
+}
+
+async function verifyClaims(documentId: string) {
+	const response = await betterFetch(`${baseUrl}/document/verify-claims`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ uuid: documentId }),
+	});
+	const json = await response.json();
+	return json;
 }
 
 const api = {
@@ -126,6 +184,9 @@ const api = {
 	fetchDocument,
 	fetchDocumentStatus,
 	initDocument,
+	generateDocTitle,
+	extractClaims,
+	verifyClaims,
 };
 
 export default api;

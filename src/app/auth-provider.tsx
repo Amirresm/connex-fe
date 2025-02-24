@@ -22,11 +22,10 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
 		enabled: () => !!retrieveToken(),
 	});
 
-	console.log("Auth info error", authInfo.error);
 	React.useEffect(() => {
 		setInitiated(true);
-		console.log("Invalidating token");
 		if (authInfo.error && authInfo.error instanceof FetchError && authInfo.error.status === 401 && pathname !== "/") {
+			console.log("Invalidating token");
 			removeToken();
 			router.push("/");
 		}
@@ -39,7 +38,6 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
 			</div>
 		);
 	}
-	console.log("Auth info", authInfo.data);
 
 	return <>{children}</>;
 }

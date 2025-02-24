@@ -18,11 +18,11 @@ export default function Home() {
 
 	const createDocumentMutation = useMutation({
 		mutationFn: async (data: NewDocumentType) => {
-			return await api.initDocument(data);
+			const initRes = await api.initDocument(data);
+			return initRes;
 		},
 		onSuccess: (data) => {
-			// const id = "none";
-			queryClient.invalidateQueries({queryKey: ["documentList"]});
+			queryClient.invalidateQueries({ queryKey: ["documentList"] });
 			const target = `/docs/${data.uuid}`;
 			router.push(target);
 		},
