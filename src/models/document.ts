@@ -14,7 +14,7 @@ export type DocumentFullType = {
 	uuid: string,
 	document_title: string,
 	document_content: string,
-	ground_truch: string,
+	ground_truth: string,
 	claims: ClaimType[],
 	user_uuid: string,
 	status: "claim" | "confidence" | "ready",

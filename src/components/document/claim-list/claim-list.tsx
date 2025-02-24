@@ -47,7 +47,7 @@ export default function ClaimList(props: ClaimListProps) {
 	const { claimList, isLoading } = props;
 
 	return (
-		<div className="w-full h-full overflow-y-scroll rounded-xl bg-base-100 px-2">
+		<div className="w-full h-full overflow-y-auto rounded-xl bg-base-100 px-2">
 			<table className="table table-pin-rows">
 				<thead>
 					<tr className="text-neutral-400">

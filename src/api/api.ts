@@ -106,6 +106,7 @@ export async function fetchDocument(documentId: string) {
 	});
 	const data = {
 		...json,
+		ground_truth: json.ground_truch,
 		status,
 		claims
 	} as DocumentFullType;
