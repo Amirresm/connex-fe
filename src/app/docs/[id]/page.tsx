@@ -5,6 +5,7 @@ import NewDocumentProcessing from "@/animations/new-document-processing/new-docu
 import getDocumentStatus from "@/utils/document_status_api";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
+import api from "@/api/api";
 
 export default function DocumentPage({
 	params,
@@ -17,12 +18,13 @@ export default function DocumentPage({
 	const documentStatusQuery = useQuery({
 		queryKey: ["documentStatus", id],
 		queryFn: async ({ queryKey }) => {
-			console.log(queryKey);
-			return getDocumentStatus(queryKey[1]);
+			const status = await api.fetchDocumentStatus(queryKey[1]);
+			return status;
 		},
 		refetchInterval: (query) => {
 			return query.state.data !== "ready" ? 1000 : false;
 		},
+		// enabled: false
 	});
 
 	React.useEffect(() => {

@@ -8,6 +8,7 @@ import {
 } from "@tanstack/react-query";
 import { usePathname, useRouter } from "next/navigation";
 import api, { FetchError } from "@/api/api";
+import { retrieveToken } from "@/utils/tokenUtils";
 
 function makeQueryClient() {
 	const qc = new QueryClient({
@@ -45,9 +46,9 @@ export function getQueryClient() {
 export default function Providers({ children }: { children: React.ReactNode }) {
 	const queryClient = getQueryClient();
 	const router = useRouter();
-	const pathname = usePathname();
 
 	React.useEffect(() => {
+		console.log("Setting default options");
 		queryClient.setDefaultOptions({
 			mutations: {
 				onError: (err) => {
@@ -58,27 +59,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 				}
 			}
 		});
-
-		// (async () => {
-		// 	console.log("Prefetching auth info");
-		// 	console.log("Query client", queryClient.getQueryData(["auth_info"]));
-		// 	await queryClient.prefetchQuery({
-		// 		queryKey: ["auth_info"],
-		// 		queryFn: async () => {
-		// 			const response = await api.fetchAuth();
-		// 			return response;
-		// 		}
-		// 	});
-		// })();
 	}, [queryClient, router]);
-
-	const authInfo = queryClient.getQueryData(["auth_info"]);
-
-	React.useEffect(() => {
-		if (!authInfo && pathname !== "/") {
-			router.replace("/");
-		}
-	}, [authInfo, pathname, router]);
 
 	return (
 		<QueryClientProvider client={queryClient}>

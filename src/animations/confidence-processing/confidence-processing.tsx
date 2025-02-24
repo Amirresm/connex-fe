@@ -1,3 +1,5 @@
+"use client";
+
 import Lottie from "lottie-react";
 // import confidenceAnimation from "./confidence-process.json";
 import confidenceAnimation from "../loading-string.json";

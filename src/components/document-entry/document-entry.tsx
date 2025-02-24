@@ -19,7 +19,7 @@ export default function DocumentEntry(props: DocumentEntryProps) {
 
 	const [step, setStep] = React.useState(1);
 
-	const handleChange = React.useCallback((e: React.ChangeEvent) => {
+	const handleResize = React.useCallback((e: React.ChangeEvent) => {
 		if (textareaRef.current) {
 			textareaRef.current.style.height = "inherit";
 			const maxHeight = Math.max(
@@ -38,7 +38,7 @@ export default function DocumentEntry(props: DocumentEntryProps) {
 				dataRef.current.doc = query;
 				if (textareaRef.current) textareaRef.current.value = "";
 				setStep(2);
-				handleChange(null as any);
+				handleResize(null as any);
 				return;
 			}
 			dataRef.current.ground = query;
@@ -47,7 +47,7 @@ export default function DocumentEntry(props: DocumentEntryProps) {
 				groundTruth: dataRef.current.ground
 			});
 		},
-		[onSubmit, step, handleChange],
+		[onSubmit, step, handleResize],
 	);
 
 	const handleReset = React.useCallback(
@@ -57,9 +57,9 @@ export default function DocumentEntry(props: DocumentEntryProps) {
 			dataRef.current.doc = "";
 			dataRef.current.ground = "";
 			setStep(1);
-			handleChange(null as any);
+			handleResize(null as any);
 		},
-		[handleChange],
+		[handleResize],
 	);
 
 	const handleBack = React.useCallback(
@@ -68,9 +68,9 @@ export default function DocumentEntry(props: DocumentEntryProps) {
 			setStep(1);
 			if (textareaRef.current) textareaRef.current.value = dataRef.current.doc;
 			dataRef.current.ground = "";
-			handleChange(null as any);
+			handleResize(null as any);
 		},
-		[],
+		[handleResize],
 	);
 
 	React.useEffect(() => {
@@ -93,8 +93,8 @@ export default function DocumentEntry(props: DocumentEntryProps) {
 	}, [handleSubmit]);
 
 	React.useLayoutEffect(() => {
-		handleChange(null as any);
-	}, [handleChange]);
+		handleResize(null as any);
+	}, [handleResize]);
 
 	return (
 		<div className="w-full max-w-[1000px]">
@@ -105,7 +105,7 @@ export default function DocumentEntry(props: DocumentEntryProps) {
 					placeholder={
 						step === 1 ? "Enter document content" : "Enter ground truth content"
 					}
-					onChange={handleChange}
+					onChange={handleResize}
 				></textarea>
 				<div className="absolute bottom-3 right-4">
 					<div className="flex items-center justify-end gap-2">

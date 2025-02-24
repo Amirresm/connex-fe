@@ -5,7 +5,7 @@ import AuthForm from "@/components/auth-form/auth-form";
 import DocumentEntry from "@/components/document-entry/document-entry";
 import { useAuthentication } from "@/hooks/authentication";
 import { NewDocumentType } from "@/models/document";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -14,14 +14,16 @@ export default function Home() {
 	const router = useRouter();
 
 	const authInfo = useAuthentication();
+	const queryClient = useQueryClient();
 
 	const createDocumentMutation = useMutation({
 		mutationFn: async (data: NewDocumentType) => {
-			// return await api.initDocument(data);
+			return await api.initDocument(data);
 		},
 		onSuccess: (data) => {
-			const id = "none";
-			const target = `/docs/${id}`;
+			// const id = "none";
+			queryClient.invalidateQueries({queryKey: ["documentList"]});
+			const target = `/docs/${data.uuid}`;
 			router.push(target);
 		},
 	});

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import "./sidebar.css";
 import {
+	ArchiveBoxXMarkIcon,
 	ArrowRightEndOnRectangleIcon,
 	CheckBadgeIcon,
 	Cog6ToothIcon,
@@ -17,6 +18,8 @@ import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { asyncSleep } from "@/utils/async_utils";
 import { useAuthentication } from "@/hooks/authentication";
+import api from "@/api/api";
+import { DocumentListItemType } from "@/models/document";
 
 function Header() {
 	return (
@@ -33,7 +36,7 @@ function Actions() {
 	return (
 		<div className="flex flex-row gap-2 items-center justify-start rounded-lg border border-neutral-800 p-4">
 			<Link href={"/"} className="btn btn-primary btn-ghost btn-sm">
-				<PlusCircleIcon className="w-6" /> New 
+				<PlusCircleIcon className="w-6" /> New
 			</Link>
 		</div>
 	);
@@ -44,7 +47,7 @@ function ModeSelect() {
 }
 
 type DocumentListProps = {
-	documentList?: any[];
+	documentList?: DocumentListItemType[];
 	activeId: string;
 	isLoading?: boolean;
 };
@@ -57,26 +60,36 @@ function DocumentList(props: DocumentListProps) {
 			<span className="loading loading-ring loading-lg" />
 		</div>
 	) : (
-		<ul className="menu menu-md rounded-box px-0 gap-3 min-h-0 overflow-y-auto flex-nowrap">
-			{documentList.map((document, index) => (
-				<React.Fragment key={document.id}>
-					<li
-						className="w-full document-list-item"
-						style={{ "--index": index }}
-					>
-						<Link
-							className={document.id === activeId ? "active" : ""}
-							href={`/docs/${document.id}`}
+		documentList.length === 0 ? (
+			<div className="w-full h-1/2 flex items-center justify-center">
+				<span className="flex items-center justify-center gap-2 text-sm"><ArchiveBoxXMarkIcon className="w-4" /> No documents</span>
+			</div>
+		) : (
+			<ul className="menu menu-md rounded-box px-0 gap-3 min-h-0 overflow-y-auto flex-nowrap">
+				{documentList.map((document, index) => (
+					<React.Fragment key={document.id}>
+						<li
+							className="w-full document-list-item"
+							style={{ "--index": index }}
 						>
-							<span className="text-md w-full overflow-hidden whitespace-nowrap text-ellipsis">
-								{document.summary}
-							</span>
-						</Link>
-					</li>
-					{/* {index < documentList.length - 1 && <div className="divider my-0" />} */}
-				</React.Fragment>
-			))}
-		</ul>
+							<Link
+								className={document.id === activeId ? "active" : ""}
+								href={`/docs/${document.id}`}
+							>
+								{
+									document.title ?
+										<span className="text-md w-full overflow-hidden whitespace-nowrap text-ellipsis">
+											{document.title}
+										</span> : <span className="text-md text-base-content w-full overflow-hidden whitespace-nowrap text-ellipsis">
+											No Title
+										</span>
+								}
+							</Link>
+						</li>
+						{/* {index < documentList.length - 1 && <div className="divider my-0" />} */}
+					</React.Fragment>
+				))}
+			</ul>)
 	);
 }
 
@@ -86,8 +99,9 @@ export default function Sidebar(props: {}) {
 	const documentListQuery = useQuery({
 		queryKey: ["documentList"],
 		queryFn: async () => {
-			await asyncSleep(1000);
-			return docListMock;
+			// await asyncSleep(1000);
+			// return docListMock;
+			return await api.fetchDocuments();
 		},
 		enabled: authInfo.isAuthenticatedOptimistic
 	});

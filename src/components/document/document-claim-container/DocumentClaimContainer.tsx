@@ -6,7 +6,6 @@ import {
 	ChevronDoubleUpIcon,
 } from "@heroicons/react/24/solid";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
 import { sampleClaimListMock, sampleDocMock } from "@/mocks/all_mocks";
 import { asyncSleep } from "@/utils/async_utils";
 

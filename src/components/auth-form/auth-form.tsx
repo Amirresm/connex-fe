@@ -1,4 +1,5 @@
 import api from "@/api/api";
+import { storeToken } from "@/utils/tokenUtils";
 import { CheckBadgeIcon, KeyIcon, UserIcon } from "@heroicons/react/24/solid";
 import { useQueryClient } from "@tanstack/react-query";
 import React from "react";
@@ -16,7 +17,7 @@ function Login() {
 		setError("");
 		try {
 			const { access_token, token_type } = await api.login(username, password);
-			localStorage.setItem("token", access_token);
+			storeToken(access_token);
 			qc.invalidateQueries({ queryKey: ["auth_info"] });
 		} catch (e) {
 			setError("Failed to login.");
@@ -63,7 +64,7 @@ function Signup() {
 		setError("");
 		try {
 			const { access_token, token_type } = await api.signup(username, password);
-			localStorage.setItem("token", access_token);
+			storeToken(access_token);
 			qc.invalidateQueries({ queryKey: ["auth_info"] });
 		} catch (e) {
 			setError("Failed to signup.");
