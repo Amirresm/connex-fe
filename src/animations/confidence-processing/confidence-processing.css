@@ -1,0 +1,46 @@
+.message {
+	@apply absolute w-full text-center italic text-lg;
+	opacity: 0;
+	transform: scale(0.2);
+	transition:
+		opacity 1s ease-in-out,
+		transform 0.5s ease-in-out;
+}
+
+.message-in {
+	opacity: 1;
+	transform: scale(1);
+}
+
+.message-idle {
+	animation: messageDisappear 1s ease-out forwards;
+	animation-delay: 2s;
+}
+
+@keyframes messageDisappear {
+	0% {
+		opacity: 1;
+		filter: blur(0);
+		transform: scaleY(1);
+	}
+	25% {
+		opacity: 1;
+		filter: blur(1px);
+		transform: scaleY(1);
+	}
+	50% {
+		opacity: 0.8;
+		filter: blur(2px);
+		transform: scaleY(1);
+	}
+	70% {
+		opacity: 0.4;
+		filter: blur(4px);
+		transform: scaleY(3);
+	}
+	100% {
+		opacity: 0;
+		filter: blur(15px);
+		transform: scaleY(4);
+	}
+}

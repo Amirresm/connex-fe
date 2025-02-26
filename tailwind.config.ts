@@ -42,5 +42,6 @@ export default {
 			// "night",
 		],
 	},
+	darkMode: ["selector", '[data-theme="night"]'],
 	plugins: [require("daisyui")],
 } satisfies Config;

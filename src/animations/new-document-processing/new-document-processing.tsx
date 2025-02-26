@@ -4,12 +4,13 @@ import "./new-document-processing.css";
 
 type NewDocumentProcessingProps = {
 	state: string;
+	messages?: string[];
 };
 
 export default function NewDocumentProcessing(
 	props: NewDocumentProcessingProps,
 ) {
-	const { state } = props;
+	const { state, messages } = props;
 
 	const message =
 		state === "claim"
@@ -27,7 +28,7 @@ export default function NewDocumentProcessing(
 				<div
 					className={`w-full h-full absolute conf-div ${state === "confidence" ? "fade-in" : "hidden"}`}
 				>
-					<ConfidenceProcessing />
+					<ConfidenceProcessing messages={messages} />
 				</div>
 			</div>
 			<div className="relative">

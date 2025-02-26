@@ -58,14 +58,33 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 					} else {
 						throw err;
 					}
-				}
-			}
+				},
+			},
 		});
 	}, [queryClient, router]);
 
+	// React.useEffect(() => {
+	// 	function detectColorScheme() {
+	// 		let theme = "light"; //default to light
+
+	// 		if (localStorage.getItem("theme")) {
+	// 			if (localStorage.getItem("theme") == "dark") {
+	// 				theme = "dark";
+	// 			}
+	// 		} else if (!window.matchMedia) {
+	// 			return false;
+	// 		} else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+	// 			theme = "dark";
+	// 		}
+
+	// 		if (theme == "dark") {
+	// 			document.documentElement.setAttribute("data-theme", "dark");
+	// 		}
+	// 	}
+	// 	detectColorScheme();
+	// }, []);
+
 	return (
-		<QueryClientProvider client={queryClient}>
-			{children}
-		</QueryClientProvider>
+		<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 	);
 }

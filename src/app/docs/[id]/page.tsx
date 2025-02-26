@@ -20,17 +20,15 @@ export default function DocumentPage({
 			const data = await api.fetchDocumentStatus(queryKey[1]);
 			return data;
 		},
-		// refetchInterval: (query) => {
-		// 	return query.state.data?.status !== "ready" ? 1000 : false;
-		// },
-		// enabled: false
 	});
 
-	const [currentState, setCurrentState] = React.useState<"claim" | "confidence" | "ready">();
+	const [currentState, setCurrentState] = React.useState<
+		"claim" | "confidence" | "ready"
+	>();
 
 	React.useEffect(() => {
 		if (documentStatusQuery.data && !currentState) {
-			setCurrentState(documentStatusQuery.data);
+			setCurrentState(documentStatusQuery.data?.status);
 		}
 	}, [currentState, documentStatusQuery.data]);
 
@@ -51,6 +49,7 @@ export default function DocumentPage({
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["document", id] });
+			queryClient.invalidateQueries({ queryKey: ["documentStatus", id] });
 			setCurrentState("confidence");
 		},
 	});
@@ -66,9 +65,7 @@ export default function DocumentPage({
 		},
 	});
 
-
 	React.useEffect(() => {
-		console.log("Current state: ", currentState);
 		switch (currentState) {
 			case "claim":
 				if (!generateTitleMutation.isPending) generateTitleMutation.mutate();
@@ -80,17 +77,30 @@ export default function DocumentPage({
 			case "ready":
 				break;
 		}
-	}, [currentState, extractClaimsMutation, generateTitleMutation, verifyClaimsMutation]);
+	}, [
+		currentState,
+		extractClaimsMutation,
+		generateTitleMutation,
+		verifyClaimsMutation,
+	]);
 
-
-	if (documentStatusQuery.isLoading || !documentStatusQuery.data || !currentState) {
+	if (
+		documentStatusQuery.isLoading ||
+		!documentStatusQuery.data ||
+		!currentState
+	) {
 		return (
 			<div className="w-full h-full flex justify-center items-center">
 				<div className="loading loading-dots loading-lg"></div>
 			</div>
 		);
 	} else if (["claim", "confidence"].includes(currentState)) {
-		return <NewDocumentProcessing state={currentState} />;
+		return (
+			<NewDocumentProcessing
+				state={currentState}
+				messages={documentStatusQuery.data?.interClaims}
+			/>
+		);
 	} else {
 		return <DocumentClaimContainer id={id} />;
 	}

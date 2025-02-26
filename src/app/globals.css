@@ -35,9 +35,29 @@ body {
 	--color2: #0fffc1;
 	--glow-intensity: 0.8;
 
-	--bg-color1: rgba(0, 0, 0, 0.1);
-	--bg-color2: rgba(10, 16, 16, 0.9);
+	--bg-color1: rgba(255, 255, 255, 0.1);
+	--bg-color2: rgba(255, 255, 255, 0.9);
 }
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color1: #aa4cad;
+		--color2: #0fffc1;
+		--glow-intensity: 0.8;
+
+		--bg-color1: rgba(0, 0, 0, 0.1);
+		--bg-color2: rgba(10, 16, 16, 0.9);
+	}
+}
+/* html[data-theme = "dark"] { */
+/* 	:root { */
+/* 		--color1: #aa4cad; */
+/* 		--color2: #0fffc1; */
+/* 		--glow-intensity: 0.8; */
+
+/* 		--bg-color1: rgba(0, 0, 0, 0.1); */
+/* 		--bg-color2: rgba(10, 16, 16, 0.9); */
+/* 	} */
+/* } */
 
 .main-bg-gradient {
 	background:
@@ -48,8 +68,7 @@ body {
 			var(--bg-color1)
 		),
 		repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.5), transparent 50px),
-		repeating-linear-gradient(-45deg, black, transparent 50px)
-	;
+		repeating-linear-gradient(-45deg, black, transparent 50px);
 	background-size: 200% 200%;
 	animation: bg-gradient 120s ease infinite;
 }

@@ -1,8 +1,13 @@
 import { ClaimType } from "@/models/claim";
-import { DocumentFullType, DocumentListItemType, NewDocumentType } from "@/models/document";
+import {
+	DocumentFullType,
+	DocumentListItemType,
+	NewDocumentType,
+} from "@/models/document";
 import { removeToken, retrieveToken } from "@/utils/tokenUtils";
 
-const baseUrl = "http://localhost:7000/api/v1";
+// const baseUrl = "http://localhost:7000/api/v1";
+const baseUrl = "http://10.0.0.92:7000/api/v1";
 
 export class FetchError extends Error {
 	status: number;
@@ -12,7 +17,10 @@ export class FetchError extends Error {
 	}
 }
 
-function betterFetch(input: RequestInfo, init?: RequestInit): Promise<Response> {
+function betterFetch(
+	input: RequestInfo,
+	init?: RequestInit,
+): Promise<Response> {
 	const token = retrieveToken();
 
 	if (token) {
@@ -62,13 +70,12 @@ export async function signup(username: string, password: string) {
 		headers: {
 			"Content-Type": "application/json",
 		},
-		body: JSON.stringify({ name: username, password, email: username })
+		body: JSON.stringify({ name: username, password, email: username }),
 	});
 	const json = await response.json();
 	const { access_token, token_type } = json;
 	return { access_token, token_type };
 }
-
 
 export async function fetchAuth() {
 	const response = await betterFetch(`${baseUrl}/auth_validate/`);
@@ -80,17 +87,26 @@ export async function fetchAuth() {
 
 export async function fetchDocuments() {
 	const response = await betterFetch(`${baseUrl}/document/get-all`);
-	const json = (await response.json()).map(({ document_id, title }: { document_id: string, title: string }) => (
-		{ id: document_id, title }
-	)) as DocumentListItemType[];
+	const json = (await response.json()).map(
+		({ document_id, title }: { document_id: string; title: string }) => ({
+			id: document_id,
+			title,
+		}),
+	) as DocumentListItemType[];
 	return json as DocumentListItemType[];
 }
 
 export async function fetchDocument(documentId: string) {
 	const response = await betterFetch(`${baseUrl}/document/${documentId}`);
 	const json = await response.json();
-	const status = json.status === "claim_extraction" ? "claim" : json.status === "claim_verification" ? "confidence" : "ready";
-	let claims = "numerical_data" in json.claims ? json.claims.numerical_data : json.claims;
+	const status =
+		json.status === "claim_extraction"
+			? "claim"
+			: json.status === "claim_verification"
+				? "confidence"
+				: "ready";
+	let claims =
+		"numerical_data" in json.claims ? json.claims.numerical_data : json.claims;
 	claims = claims.map((claim: any) => {
 		if (typeof claim === "string") {
 			return {
@@ -108,7 +124,7 @@ export async function fetchDocument(documentId: string) {
 		...json,
 		ground_truth: json.ground_truch,
 		status,
-		claims
+		claims,
 	} as DocumentFullType;
 
 	return data;
@@ -117,8 +133,26 @@ export async function fetchDocument(documentId: string) {
 export async function fetchDocumentStatus(documentId: string) {
 	const response = await betterFetch(`${baseUrl}/document/${documentId}`);
 	const json = await response.json();
-	const status = json.status === "claim_extraction" ? "claim" : json.status === "claim_verification" ? "confidence" : "ready";
-	return status;
+	const status =
+		json.status === "claim_extraction"
+			? "claim"
+			: json.status === "claim_verification"
+				? "confidence"
+				: "ready";
+	const interClaims = json.claims.map?.((claim: any) => {
+		if (typeof claim === "string") {
+			return claim;
+		} else {
+			return claim.claim as string;
+		}
+	});
+	return {
+		status,
+		interClaims,
+	} as {
+		status: "claim" | "confidence" | "ready";
+		interClaims: string[];
+	};
 }
 
 async function initDocument(data: NewDocumentType) {
