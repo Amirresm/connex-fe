@@ -23,7 +23,7 @@ export default function RootLayout({
 							<div className="">
 								<Sidebar />
 							</div>
-							<div className="flex-grow p-10">{children}</div>
+							<div className="flex-grow p-4">{children}</div>
 						</div>
 					</AuthProvider>
 				</Providers>

@@ -10,7 +10,6 @@ import { useQuery } from "@tanstack/react-query";
 import api from "@/api/api";
 import "./document-claim-container.css";
 
-
 type DocumentHeaderProps = {
 	title?: string;
 	isLoading?: boolean;
@@ -20,21 +19,30 @@ type DocumentHeaderProps = {
 
 function DocumentHeader(props: DocumentHeaderProps) {
 	const { onSearchQueryChange } = props;
-	const handleSearchQueryChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-		onSearchQueryChange(e.target.value);
-	}, [onSearchQueryChange]);
+	const handleSearchQueryChange = React.useCallback(
+		(e: React.ChangeEvent<HTMLInputElement>) => {
+			onSearchQueryChange(e.target.value);
+		},
+		[onSearchQueryChange],
+	);
 
 	return (
 		<div className="h-12 p-3 bg-base-100 rounded-lg flex justify-center items-center gap-3">
 			{props.isLoading ? (
 				<div className="w-72 h-6 skeleton rounded-sm" />
 			) : (
-				<div className="text-lg font-bold">{props.title}</div>
+				<h1 className="text-xl font-bold">{props.title}</h1>
 			)}
 			<div className="flex-1" />
 			<label className="input input-sm input-bordered flex items-center gap-2">
 				<MagnifyingGlassIcon className="w-5" />
-				<input type="text" className="grow" placeholder="Search" value={props.searchQuery} onChange={handleSearchQueryChange} />
+				<input
+					type="text"
+					className="grow"
+					placeholder="Search"
+					value={props.searchQuery}
+					onChange={handleSearchQueryChange}
+				/>
 			</label>
 		</div>
 	);
@@ -48,7 +56,9 @@ type DocumentDisplayProps = {
 
 function DocumentDisplay(props: DocumentDisplayProps) {
 	const { documentSource, groundTruth, isLoading } = props;
-	const [mode, setMode] = React.useState<"document" | "ground-truth">("document");
+	const [mode, setMode] = React.useState<"document" | "ground-truth">(
+		"document",
+	);
 
 	return isLoading || !documentSource ? (
 		<div className="w-full h-full flex flex-col gap-4">
@@ -61,8 +71,16 @@ function DocumentDisplay(props: DocumentDisplayProps) {
 			<div className="flex items-center justify-start gap-4 mb-2">
 				<div className="">
 					<ul className="menu menu-horizontal gap-2">
-						<li onClick={() => setMode("document")}><a className={mode === "document" ? "btn-custom-active" : ""}>Document</a></li>
-						<li onClick={() => setMode("ground-truth")}><a className={mode === "ground-truth" ? "btn-custom-active" : ""}>Ground Truth</a></li>
+						<li onClick={() => setMode("document")}>
+							<a className={mode === "document" ? "btn-custom-active" : ""}>
+								Document
+							</a>
+						</li>
+						<li onClick={() => setMode("ground-truth")}>
+							<a className={mode === "ground-truth" ? "btn-custom-active" : ""}>
+								Ground Truth
+							</a>
+						</li>
 					</ul>
 				</div>
 				{/* <div className="dropdown"> */}
@@ -74,7 +92,9 @@ function DocumentDisplay(props: DocumentDisplayProps) {
 				{/* </div> */}
 			</div>
 			<div className="rounded-3xl bg-base-200 w-full h-full py-2 px-4 overflow-y-auto border border-neutral-800">
-				<span className="text-md whitespace-pre-wrap">{mode === "document" ? documentSource : groundTruth}</span>
+				<span className="text-md whitespace-pre-wrap">
+					{mode === "document" ? documentSource : groundTruth}
+				</span>
 			</div>
 		</div>
 	);
@@ -105,7 +125,9 @@ export default function DocumentClaimContainer(
 	const claims = React.useMemo(() => {
 		if (!documentQuery.data?.claims) return [];
 		if (!searchQuery) return documentQuery.data.claims;
-		return documentQuery.data.claims.filter((claim) => claim.claim.toLowerCase().includes(searchQuery.toLowerCase()));
+		return documentQuery.data.claims.filter((claim) =>
+			claim.claim.toLowerCase().includes(searchQuery.toLowerCase()),
+		);
 	}, [documentQuery.data?.claims, searchQuery]);
 
 	return (
@@ -121,7 +143,9 @@ export default function DocumentClaimContainer(
 					claimList={claims}
 					isLoading={documentQuery.isLoading}
 					emptyMessage={
-						searchQuery ? "No claims found, clear search to show all" : "No claims extracted"
+						searchQuery
+							? "No claims found, clear search to show all"
+							: "No claims extracted"
 					}
 				/>
 			</div>
@@ -140,7 +164,7 @@ export default function DocumentClaimContainer(
 				</label>
 			</div>
 			<div
-				className={`flex flex-col gap-4 items-center ${collapsed ? "h-1/6 basis-1/6" : "h-1/2 basis-1/2"} transition-all duration-300`}
+				className={`flex flex-col gap-4 items-center ${collapsed ? "h-1/5 basis-1/5" : "h-1/2 basis-1/2"} transition-all duration-300`}
 			>
 				<DocumentDisplay
 					documentSource={documentQuery.data?.document_content}

@@ -48,7 +48,7 @@ export default function ClaimList(props: ClaimListProps) {
 	const { claimList, isLoading, emptyMessage } = props;
 
 	return (
-		<div className="w-full h-full flex flex-col overflow-y-auto rounded-xl bg-base-100 px-2">
+		<div className="w-full h-full flex flex-col overflow-y-auto rounded-xl bg-base-100">
 			<table className="table table-pin-rows">
 				<thead>
 					<tr className="text-neutral-400">
@@ -64,7 +64,9 @@ export default function ClaimList(props: ClaimListProps) {
 					) : (
 						claimList.map((claim, index) => (
 							<tr key={claim.claim} className="hover">
-								<th><span className="block w-6">{index + 1}</span></th>
+								<th>
+									<span className="block w-6">{index + 1}</span>
+								</th>
 								<td>
 									<div
 										className={`radial-progress text-sm ${confidenceColor(claim.confidence)}`}
