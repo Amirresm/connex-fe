@@ -101,10 +101,10 @@ function Signup() {
 export default function AuthForm() {
 	const [state, setState] = React.useState<"login" | "signup">("login");
 
-	return <div className="w-1/3 2xl:w-[70%] min-w-[500px] max-w-[700px] h-2/3 2xl:h-3/4 min-h-[500px] max-h-[700px] flex flex-col justify-between items-center gap-4 rounded-lg bg-base-100 border border-neutral-700">
-		<div className="mt-20">
+	return <div className="w-1/3 2xl:w-[70%] min-w-[500px] max-w-[700px] h-2/3 2xl:h-3/4 min-h-[500px] max-h-[700px] flex flex-col justify-between items-center gap-8 rounded-lg bg-base-100 border border-neutral-700">
+		<div className="mt-16 2xl:mt-20">
 			<div className="flex flex-row gap-2 mt-4 mx-2 items-center justify-center text-secondary">
-				<CheckBadgeIcon className="w-14 2xl:w-16 brand-svg" />
+				{/* <CheckBadgeIcon className="w-14 2xl:w-16 brand-svg" /> */}
 				<span className="text-4xl 2xl:text-5xl brand-text">Fact Checker</span>
 			</div>
 		</div>

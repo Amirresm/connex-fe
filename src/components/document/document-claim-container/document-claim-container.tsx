@@ -5,12 +5,15 @@ import {
 	ChevronDoubleDownIcon,
 	ChevronDoubleUpIcon,
 	MagnifyingGlassIcon,
+	TrashIcon,
 } from "@heroicons/react/24/solid";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import api from "@/api/api";
 import "./document-claim-container.css";
+import { useRouter } from "next/navigation";
 
 type DocumentHeaderProps = {
+	documentId: string;
 	title?: string;
 	isLoading?: boolean;
 	searchQuery: string;
@@ -18,13 +21,27 @@ type DocumentHeaderProps = {
 };
 
 function DocumentHeader(props: DocumentHeaderProps) {
-	const { onSearchQueryChange } = props;
+	const { onSearchQueryChange, documentId } = props;
+	const queryClient = useQueryClient();
+	const router = useRouter();
+
 	const handleSearchQueryChange = React.useCallback(
 		(e: React.ChangeEvent<HTMLInputElement>) => {
 			onSearchQueryChange(e.target.value);
 		},
 		[onSearchQueryChange],
 	);
+
+	const deleteDocumentMutation = useMutation({
+		mutationKey: ["deleteDocument"],
+		onMutate: async () => {
+			const previousDocument = documentId;
+			await api.deleteDocument(documentId);
+			queryClient.invalidateQueries({ queryKey: ["documentList"] });
+			router.push("/");
+			return { previousDocument };
+		},
+	});
 
 	return (
 		<div className="h-12 p-3 bg-base-100 rounded-lg flex justify-center items-center gap-3">
@@ -44,6 +61,12 @@ function DocumentHeader(props: DocumentHeaderProps) {
 					onChange={handleSearchQueryChange}
 				/>
 			</label>
+			<button
+				className="btn btn-sm hover:btn-error btn-square"
+				onClick={() => deleteDocumentMutation.mutate()}
+			>
+				<TrashIcon className="w-4" />
+			</button>
 		</div>
 	);
 }
@@ -133,6 +156,7 @@ export default function DocumentClaimContainer(
 	return (
 		<div className="h-full flex flex-col gap-1">
 			<DocumentHeader
+				documentId={id}
 				title={documentQuery.data?.document_title}
 				isLoading={documentQuery.isLoading}
 				searchQuery={searchQuery}

@@ -175,6 +175,14 @@ async function initDocument(data: NewDocumentType) {
 	};
 }
 
+export async function deleteDocument(documentId: string) {
+	const response = await betterFetch(`${baseUrl}/document/${documentId}`, {
+		method: "DELETE",
+	});
+	const json = await response.json();
+	return json;
+}
+
 async function generateDocTitle(documentId: string) {
 	const response = await betterFetch(`${baseUrl}/document/generate-title`, {
 		method: "POST",
@@ -219,6 +227,7 @@ const api = {
 	fetchDocument,
 	fetchDocumentStatus,
 	initDocument,
+	deleteDocument,
 	generateDocTitle,
 	extractClaims,
 	verifyClaims,
