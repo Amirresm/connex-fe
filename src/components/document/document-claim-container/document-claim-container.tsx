@@ -48,7 +48,7 @@ function DocumentHeader(props: DocumentHeaderProps) {
 			{props.isLoading ? (
 				<div className="w-72 h-6 skeleton rounded-sm" />
 			) : (
-				<h1 className="text-xl font-bold">{props.title}</h1>
+				<h1 className="text-xl font-bold overflow-hidden text-ellipsis whitespace-nowrap">{props.title}</h1>
 			)}
 			<div className="flex-1" />
 			<label className="input input-sm input-bordered flex items-center gap-2">
